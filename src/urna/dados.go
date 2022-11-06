@@ -130,11 +130,9 @@ func BaixarDadosDaUrna(params modelos.Parametros) {
 				return
 			}
 
-			logger.Warnf("Deletando a pasta do estado [%s] após a compressão", strings.ToUpper(estado))
-			err = os.RemoveAll(fonte)
+			err = writer.Close()
 			if err != nil {
 				logger.Error(err)
-				return
 			}
 
 			err = file.Close()
@@ -142,9 +140,11 @@ func BaixarDadosDaUrna(params modelos.Parametros) {
 				logger.Error(err)
 			}
 
-			err = writer.Close()
+			logger.Warnf("Deletando a pasta do estado [%s] após a compressão", strings.ToUpper(estado))
+			err = os.RemoveAll(fonte)
 			if err != nil {
 				logger.Error(err)
+				return
 			}
 		}
 	}
